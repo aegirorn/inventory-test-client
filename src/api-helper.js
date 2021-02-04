@@ -68,4 +68,31 @@ export default function ApiHelper() {
       return error.response;
     }
   };
+
+  this.addItem = async function (data) {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const token = storedData.token;
+
+    if (!token) {
+      console.log('Authentication error: User is not logged in!');
+      return;
+    }
+
+    console.log('apihelper: 81');
+    console.log(data);
+    
+    try {
+      const URL = this.baseURL + "inventory";
+      const response = await Axios.post(URL, {
+        headers: {"Authorization" : `Bearer ${token}`},
+        body: data
+      });
+
+      return response;
+
+    } catch (error) {
+      console.log(error.response);
+      return error.response;
+    }
+  };
 }

@@ -12,6 +12,8 @@ import { AuthContext } from './shared/context/auth-context';
 import ItemList from './item/components/ItemList';
 import Auth from './user/pages/Auth';
 import { useAuth } from './shared/hooks/auth-hook';
+import NewItem from './item/components/NewItem';
+import UpdatedItem from './item/components/UpdatedItem';
 
 const App = () => {
   const { token, login, logout } = useAuth();
@@ -22,6 +24,9 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
+        </Route>
+        <Route path="/newItem" exact>
+          <NewItem />
         </Route>
         <Route path="/items" exact>
           <ItemList />
