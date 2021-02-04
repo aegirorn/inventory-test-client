@@ -40,10 +40,6 @@ const RemoveActionCell = ({ rowData, dataKey, ...props }) => {
     setShowConfirmModal(false);
   };
 
-
-  function handleAction() {
-    alert(`Remove id:${rowData[dataKey]}`);
-  }
   return (
     <React.Fragment>
       <Modal
@@ -73,22 +69,21 @@ const RemoveActionCell = ({ rowData, dataKey, ...props }) => {
 };
 
 const ItemList = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
+ // const [isLoading, setIsLoading] = useState(false);
   const [dataList, setDataList] = useState();
-
 
   const apiHelper = new ApiHelper();
 
   useEffect(() => {
     const sendRequest = async () => {
-      setIsLoading(true);
+     // setIsLoading(true);
       try {
         const itemsList = await apiHelper.getInventory();
         setDataList(itemsList);
 
         setIsLoading(false);
       } catch (err) {
-        setIsLoading(false);
+      //  setIsLoading(false);
         console.log(err.message);
       }
     };
@@ -97,8 +92,6 @@ const ItemList = (props) => {
 
   return (
     <React.Fragment>
-      
-
       <Table
         height={830}
         data={dataList}
