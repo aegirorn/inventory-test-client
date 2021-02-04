@@ -4,9 +4,9 @@ import { Icon, IconButton } from "rsuite";
 import "rsuite-table/dist/css/rsuite-table.css";
 import "rsuite/dist/styles/rsuite-default.css";
 import ApiHelper from "../../api-helper";
-//import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import Modal from '../../shared/components/UIElements/Modal';
-import Button from '../../shared/components/FormElements/Button'
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import Modal from "../../shared/components/UIElements/Modal";
+import Button from "../../shared/components/FormElements/Button";
 
 const EditActionCell = ({ rowData, dataKey, ...props }) => {
   function handleAction() {
@@ -24,7 +24,6 @@ const EditActionCell = ({ rowData, dataKey, ...props }) => {
 };
 
 const RemoveActionCell = ({ rowData, dataKey, ...props }) => {
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const showDeleteWarningHandler = () => {
@@ -49,40 +48,43 @@ const RemoveActionCell = ({ rowData, dataKey, ...props }) => {
         footerClass='place_item__modal-actions'
         footer={
           <React.Fragment>
-            <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
-            <Button danger onClick={confirmDeleteHandler}>REMOVE</Button>
+            <Button inverse onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              REMOVE
+            </Button>
           </React.Fragment>
         }
       >
         Are you sure you want to delete this item? Deleting cannot be undone.
       </Modal>
       <Cell {...props} className='link-group'>
-      <IconButton
-        appearance='subtle'
-        onClick={showDeleteWarningHandler}
-        icon={<Icon icon='trash2' />}
-      />
-    </Cell>
+        <IconButton
+          appearance='subtle'
+          onClick={showDeleteWarningHandler}
+          icon={<Icon icon='trash2' />}
+        />
+      </Cell>
     </React.Fragment>
-
   );
 };
 
 const ItemList = (props) => {
- // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [dataList, setDataList] = useState();
 
   useEffect(() => {
     const sendRequest = async () => {
       const apiHelper = new ApiHelper();
-     // setIsLoading(true);
+      setIsLoading(true);
       try {
         const itemsList = await apiHelper.getInventory();
         setDataList(itemsList);
 
-        //setIsLoading(false);
+        setIsLoading(false);
       } catch (err) {
-      //  setIsLoading(false);
+        setIsLoading(false);
         console.log(err.message);
       }
     };
@@ -91,53 +93,60 @@ const ItemList = (props) => {
 
   return (
     <React.Fragment>
-      <Table
-        height={830}
-        data={dataList}
-        onRowClick={(data) => {
-          console.log(data);
-        }}
-      >
-        <Column width={200} fixed>
-          <HeaderCell>Item Name</HeaderCell>
-          <Cell dataKey='item' />
-        </Column>
+      {isLoading && (
+        <div className='center'>
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && dataList && (
+        <Table
+          height={830}
+          data={dataList}
+          onRowClick={(data) => {
+            console.log(data);
+          }}
+        >
+          <Column width={200} fixed>
+            <HeaderCell>Item Name</HeaderCell>
+            <Cell dataKey='item' />
+          </Column>
 
-        <Column width={250}>
-          <HeaderCell>Description</HeaderCell>
-          <Cell dataKey='description' />
-        </Column>
+          <Column width={250}>
+            <HeaderCell>Description</HeaderCell>
+            <Cell dataKey='description' />
+          </Column>
 
-        <Column width={200}>
-          <HeaderCell>Type of Item</HeaderCell>
-          <Cell dataKey='type_of_item' />
-        </Column>
+          <Column width={200}>
+            <HeaderCell>Type of Item</HeaderCell>
+            <Cell dataKey='type_of_item' />
+          </Column>
 
-        <Column width={200}>
-          <HeaderCell>Number of items</HeaderCell>
-          <Cell dataKey='amount' />
-        </Column>
+          <Column width={200}>
+            <HeaderCell>Number of items</HeaderCell>
+            <Cell dataKey='amount' />
+          </Column>
 
-        <Column width={200}>
-          <HeaderCell>Price</HeaderCell>
-          <Cell dataKey='price' />
-        </Column>
+          <Column width={200}>
+            <HeaderCell>Price</HeaderCell>
+            <Cell dataKey='price' />
+          </Column>
 
-        <Column width={550}>
-          <HeaderCell>Image</HeaderCell>
-          <Cell dataKey='image' />
-        </Column>
+          <Column width={550}>
+            <HeaderCell>Image</HeaderCell>
+            <Cell dataKey='image' />
+          </Column>
 
-        <Column width={80} fixed='right'>
-          <HeaderCell>Edit</HeaderCell>
-          <EditActionCell dataKey={"id"} />
-        </Column>
+          <Column width={80} fixed='right'>
+            <HeaderCell>Edit</HeaderCell>
+            <EditActionCell dataKey={"id"} />
+          </Column>
 
-        <Column width={80} fixed='right'>
-          <HeaderCell>Remove</HeaderCell>
-          <RemoveActionCell dataKey={"id"} />
-        </Column>
-      </Table>
+          <Column width={80} fixed='right'>
+            <HeaderCell>Remove</HeaderCell>
+            <RemoveActionCell dataKey={"id"} />
+          </Column>
+        </Table>
+      )}
     </React.Fragment>
   );
 };
