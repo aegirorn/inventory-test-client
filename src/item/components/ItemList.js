@@ -81,7 +81,7 @@ const ItemList = (props) => {
         const itemsList = await apiHelper.getInventory();
         setDataList(itemsList);
 
-        setIsLoading(false);
+        //setIsLoading(false);
       } catch (err) {
       //  setIsLoading(false);
         console.log(err.message);
