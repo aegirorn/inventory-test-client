@@ -72,10 +72,9 @@ const ItemList = (props) => {
  // const [isLoading, setIsLoading] = useState(false);
   const [dataList, setDataList] = useState();
 
-  const apiHelper = new ApiHelper();
-
   useEffect(() => {
     const sendRequest = async () => {
+      const apiHelper = new ApiHelper();
      // setIsLoading(true);
       try {
         const itemsList = await apiHelper.getInventory();
@@ -88,7 +87,7 @@ const ItemList = (props) => {
       }
     };
     sendRequest();
-  }, [apiHelper]);
+  }, []);
 
   return (
     <React.Fragment>
